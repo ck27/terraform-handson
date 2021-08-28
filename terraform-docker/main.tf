@@ -9,12 +9,16 @@ terraform {
 
 provider "docker" {}
 
+variable "container_count" {
+  default = 1
+}
+
 resource "docker_image" "nodered_img" {
   name = "nodered/node-red:latest"
 }
 
 resource "docker_container" "nodered_ctr" {
-  count = 2
+  count = var.container_count
   name = join("-", [
     "nodered",
     random_string.random[count.index].result
@@ -31,7 +35,7 @@ resource "random_string" "random" {
   length  = 6
   special = false
   upper   = false
-  count   = 2
+  count   = var.container_count
 }
 
 output "ip_address_out" {
