@@ -1,0 +1,5 @@
+terraform-docker/.terraform.lock.hcl
+terraform-docker/terraform.tfstate
+terraform-docker/terraform.tfstate.backup
+terraform-docker/.terraform/providers/registry.terraform.io/hashicorp/random/3.1.0/linux_amd64/terraform-provider-random_v3.1.0_x5
+terraform-docker/.terraform/providers/registry.terraform.io/kreuzwerker/docker/2.15.0/linux_amd64/terraform-provider-docker_v2.15.0
