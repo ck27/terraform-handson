@@ -11,13 +11,14 @@ provider "docker" {}
 
 
 resource "docker_image" "nodered_img" {
-  name = "nodered/node-red:latest"
+  name = var.images[terraform.workspace]
 }
 
 resource "docker_container" "nodered_ctr" {
   count = local.port_count
   name = join("-", [
     "nodered",
+    terraform.workspace,
     random_string.random[count.index].result
     ]
   )
@@ -25,7 +26,7 @@ resource "docker_container" "nodered_ctr" {
 
   ports {
     internal = var.internal_port
-    external = var.external_port[count.index]
+    external = var.external_port[terraform.workspace][count.index]
   }
 }
 
