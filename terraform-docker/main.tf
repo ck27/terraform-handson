@@ -9,9 +9,6 @@ terraform {
 
 provider "docker" {}
 
-variable "container_count" {
-  default = 1
-}
 
 resource "docker_image" "nodered_img" {
   name = "nodered/node-red:latest"
@@ -27,7 +24,8 @@ resource "docker_container" "nodered_ctr" {
   image = docker_image.nodered_img.latest
 
   ports {
-    internal = 1880
+    internal = var.internal_port
+    external = var.external_port
   }
 }
 
@@ -36,17 +34,5 @@ resource "random_string" "random" {
   special = false
   upper   = false
   count   = var.container_count
-}
-
-output "ip_address_out" {
-  value = [for ctr in docker_container.nodered_ctr : join( ":", [ "http://", ctr.ip_address, ctr.ports[0].external ] )]
-}
-
-output "ip_address_out_with_splat" {
-  value = [for ctr in docker_container.nodered_ctr[*]: join(":", ["http://",ctr.ip_address], ctr.ports[*].external ) ]
-}
-
-output "container_name" {
-  value = docker_container.nodered_ctr[*].name
 }
 
