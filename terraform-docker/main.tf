@@ -15,7 +15,7 @@ resource "docker_image" "nodered_img" {
 }
 
 resource "docker_container" "nodered_ctr" {
-  count = var.container_count
+  count = local.port_count
   name = join("-", [
     "nodered",
     random_string.random[count.index].result
@@ -25,7 +25,7 @@ resource "docker_container" "nodered_ctr" {
 
   ports {
     internal = var.internal_port
-    external = var.external_port
+    external = var.external_port[count.index]
   }
 }
 
@@ -33,6 +33,5 @@ resource "random_string" "random" {
   length  = 6
   special = false
   upper   = false
-  count   = var.container_count
+  count   = local.port_count
 }
-
