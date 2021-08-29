@@ -16,8 +16,8 @@ locals {
 variable "external_port" {
   type = list(number)
 
-#   validation {
-#       condition = var.external_port > 0 && var.external_port <= 65535
-#       error_message = "The external port for the container must be with range 0 - 65535."
-#   }
+  validation {
+      condition = min(var.external_port...) > 0 && max(var.external_port...) <= 65535
+      error_message = "The external port for the container must be with range 0 - 65535."
+  }
 }
