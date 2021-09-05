@@ -1,4 +1,4 @@
-resource "docker_container" "nodered_ctr" {
+resource "docker_container" "container" {
   image = var.image_in
   name = var.name_in
 
@@ -8,7 +8,7 @@ resource "docker_container" "nodered_ctr" {
   }
 
   volumes {
-    container_path = "/data"
+    container_path = var.container_path_in
     volume_name = docker_volume.ctr_volume.name
   }
 }

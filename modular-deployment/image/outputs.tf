@@ -1,3 +1,3 @@
 output "image_out" {
-  value = docker_image.nodered_img.latest
+  value = docker_image.container_img.latest
 }
