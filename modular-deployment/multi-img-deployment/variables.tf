@@ -8,6 +8,10 @@ variable "image_in" {
     "influxdb" : {
       "dev" : "quay.io/influxdb/influxdb:v2.0.3"
       "prod" : "quay.io/influxdb/influxdb:v2.0.3"
+    },
+    "grafana" : {
+      "dev" : "grafana/grafana:5.1.0",
+      "prod": "grafana/grafana:5.1.0"
     }
   }
 }

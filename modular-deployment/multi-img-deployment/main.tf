@@ -14,6 +14,13 @@ locals {
       ext_port        = var.external_port["influxdb"][terraform.workspace]
       container_path  = "/var/lib/influxdb"
     }
+    grafana = {
+      container_count = length(var.external_port["grafana"][terraform.workspace])
+      image           = var.image_in["grafana"][terraform.workspace]
+      int_port        = 3000
+      ext_port        = var.external_port["grafana"][terraform.workspace]
+      container_path  = "/var/lib/grafana"
+    }
   }
 }
 
