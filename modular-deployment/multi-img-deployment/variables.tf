@@ -11,7 +11,7 @@ variable "image_in" {
     },
     "grafana" : {
       "dev" : "grafana/grafana:5.1.0",
-      "prod": "grafana/grafana:5.1.0"
+      "prod" : "grafana/grafana:5.1.0"
     }
   }
 }

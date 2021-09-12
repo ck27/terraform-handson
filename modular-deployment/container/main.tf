@@ -1,8 +1,8 @@
 resource "random_string" "random" {
-  count = var.count_in
-  length   = 4
-  special  = false
-  upper    = false
+  count   = var.count_in
+  length  = 4
+  special = false
+  upper   = false
 }
 resource "docker_container" "container" {
   count = var.count_in
@@ -18,40 +18,28 @@ resource "docker_container" "container" {
     external = var.ext_port_in[count.index]
   }
 
-  volumes {
-    container_path = var.container_path_in
-    volume_name = docker_volume.ctr_volume[count.index].name
+  dynamic "volumes" {
+    for_each = var.volumes_in
+    content {
+      container_path = volumes.value["container_path_each"]
+      volume_name    = module.volume[count.index].volume_out[volumes.key]
+    }
   }
 
   provisioner "local-exec" {
-    command = "echo ${self.name} : ${self.ip_address}:${join("", [for x in self.ports[*]["external"]: x])} >> containers.txt"
+    command = "echo ${self.name} : ${self.ip_address}:${join("", [for x in self.ports[*]["external"] : x])} >> containers.txt"
   }
 
   provisioner "local-exec" {
     command = "rm -rf containers.txt"
-    when = destroy
+    when    = destroy
   }
 }
 
-resource "docker_volume" "ctr_volume" {
-  count = var.count_in
-  name = "${var.name_in}-${random_string.random[count.index].result}-vol"
-
-  lifecycle {
-    prevent_destroy = false
-  }
-
-  provisioner "local-exec" {
-    when = destroy
-    command = "mkdir ${path.cwd}/../backup/"
-    on_failure = continue
-  }
-
-  provisioner "local-exec" {
-    when = destroy
-    command = "sudo tar -czvf ${path.cwd}/../backup/${self.name}.tar.gz ${self.mountpoint}/"
-    on_failure = fail
-  }
-
+module "volume" {
+  source       = "./volume"
+  count        = var.count_in
+  volume_count = length(var.volumes_in)
+  volume_name  = "${var.name_in}-${terraform.workspace}-${random_string.random[count.index].result}-vol"
 }
 

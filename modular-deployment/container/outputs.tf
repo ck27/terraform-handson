@@ -8,7 +8,7 @@
 # }
 
 output "container_access" {
-  value = { for ctr in docker_container.container[*]: ctr.name => join(":",[
+  value = { for ctr in docker_container.container[*] : ctr.name => join(":", [
     ctr.ip_address, ctr.ports[0]["external"]
   ]) }
 }

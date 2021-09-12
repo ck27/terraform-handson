@@ -6,3 +6,5 @@ terraform-docker/.terraform/providers/registry.terraform.io/kreuzwerker/docker/2
 terraform-docker/terraform.tfvars
 */.terraform/
 */*/.terraform/
+*.tfstate*
+*.tar.gz

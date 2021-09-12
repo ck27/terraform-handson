@@ -8,7 +8,7 @@ external_port = {
     prod = [8086]
   }
   grafana = {
-    dev = [3000]
-    prod = [3000]
+    dev  = [3000]
+    prod = [3000, 4000]
   }
 }
