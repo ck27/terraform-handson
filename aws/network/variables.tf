@@ -13,3 +13,18 @@ variable "private_cidrs" {
 variable "max_subnets" {
   type = number
 }
+
+variable "public_sn_count" {
+  type = number
+}
+variable "private_sn_count" {
+  type = number
+}
+
+variable "access_ip" {
+  type = string
+}
+
+variable "security_groups" {
+
+}
